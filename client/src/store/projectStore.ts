@@ -8,6 +8,7 @@ const initialUserState = {
   userName: '',
   userEmail: '',
   userIsLoggedIn: false,
+  userActiveTab: 1,
 };
 
 const initialCartState = {
@@ -31,6 +32,9 @@ const useProjectStore = create<ProjectState>((set) => ({
   },
   setUserIsLoggedIn: (userIsLoggedIn: boolean) => {
     set(() => ({ userIsLoggedIn }));
+  },
+  setUserActiveTab: (userActiveTab: number) => {
+    set(() => ({ userActiveTab }));
   },
   setCartProducts: (cartProducts: CartProduct[]) => {
     set(() => ({ cartProducts }));

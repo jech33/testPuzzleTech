@@ -3,10 +3,22 @@ import useProjectStore from './projectStore';
 
 export const useSelectUserState = () => {
   return useProjectStore(
-    ({ userName, userEmail, userIsLoggedIn, setUserName, setUserEmail, setUserIsLoggedIn, clearUser }) => ({
+    ({
+      userActiveTab,
       userName,
       userEmail,
       userIsLoggedIn,
+      setUserActiveTab,
+      setUserName,
+      setUserEmail,
+      setUserIsLoggedIn,
+      clearUser,
+    }) => ({
+      userActiveTab,
+      userName,
+      userEmail,
+      userIsLoggedIn,
+      setUserActiveTab,
       setUserName,
       setUserEmail,
       setUserIsLoggedIn,

@@ -3,10 +3,12 @@ export type ProjectState = {
   userName: string;
   userEmail: string;
   userIsLoggedIn: boolean;
+  userActiveTab: number;
   cartProducts: CartProduct[];
   setUserName: (userName: string) => void;
   setUserEmail: (userEmail: string) => void;
   setUserIsLoggedIn: (userIsLoggedIn: boolean) => void;
+  setUserActiveTab: (userActiveTab: number) => void;
   setCartProducts: (cartProducts: CartProduct[]) => void;
   clearUser: () => void;
   clearCart: () => void;

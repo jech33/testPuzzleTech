@@ -15,7 +15,7 @@ const TopBar = () => {
     clearUser();
   };
   return (
-    <div className="flex items-center justify-end flex-wrap bg-blue-500 p-3 gap-4">
+    <div className="flex items-center justify-end flex-wrap bg-blue-500 p-3 gap-4 rounded-b-lg">
       {userIsLoggedIn ? (
         <Link to={'/login'} className="btn btn-neutral">
           Log in

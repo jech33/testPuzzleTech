@@ -1,9 +1,11 @@
+import TabPanel from '../../components/TabPanel';
 import TopBar from '../../components/TopBar';
 
 const Dashboard = () => {
   return (
-    <div className="border-red-600 border-2 container mx-auto flex flex-col w-full h-[100svh]">
+    <div className="container mx-auto flex flex-col w-full h-[100svh] gap-5">
       <TopBar />
+      <TabPanel />
       Dashboard
     </div>
   );
