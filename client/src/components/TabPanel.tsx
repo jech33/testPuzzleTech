@@ -20,7 +20,7 @@ const TabPanel = () => {
 
   return (
     <div className="flex flex-col gap-3 flex-grow overflow-hidden">
-      <div className="tabs tab-bordered pb-2 w-full [&_.tab-active]:!bg-blue-100">
+      <div className="tabs tab-bordered px-3 pb-2 w-full [&_.tab-active]:!bg-blue-100">
         {tabs.map((tab) => (
           <button
             key={tab.value}

@@ -39,7 +39,7 @@ const TopBar = () => {
           Log in
         </Link>
       ) : (
-        <details className="dropdown dropdown-end" open>
+        <details className="dropdown dropdown-end">
           <summary className="btn capitalize m-0">Hey {userName || 'user'}!</summary>
           <ul
             className="min-w-[8rem] mt-2 p-2 shadow-lg menu dropdown-content bg-base-100 rounded-box"
@@ -56,9 +56,11 @@ const TopBar = () => {
           </ul>
         </details>
       )}
-      <div className="btn bg-white btn-circle">
-        <MdShoppingCart size="1.75rem" />
-      </div>
+      {userIsLoggedIn ? (
+        <div className="btn bg-white btn-circle">
+          <MdShoppingCart size="1.75rem" />
+        </div>
+      ) : null}
     </div>
   );
 };
