@@ -1,8 +1,19 @@
+/** Libraries **/
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+/** Functional **/
+import Dashboard from './pages/dashboard/Dashboard';
+import Login from './pages/login/Login';
+
 function App() {
   return (
-    <>
-      <p className="">Click on the Vite and React logos to learn more</p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/*" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
