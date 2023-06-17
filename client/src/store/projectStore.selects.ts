@@ -27,3 +27,16 @@ export const useSelectUserState = () => {
     shallow,
   );
 };
+
+export const useSelectProductsState = () => {
+  return useProjectStore(
+    ({ products, productsLoading, cartProducts, setCartProducts, clearCart }) => ({
+      products,
+      productsLoading,
+      cartProducts,
+      setCartProducts,
+      clearCart,
+    }),
+    shallow,
+  );
+};

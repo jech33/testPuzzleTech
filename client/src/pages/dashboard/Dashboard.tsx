@@ -6,7 +6,6 @@ const Dashboard = () => {
     <div className="container mx-auto flex flex-col w-full h-[100svh] gap-5">
       <TopBar />
       <TabPanel />
-      Dashboard
     </div>
   );
 };

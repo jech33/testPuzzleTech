@@ -4,6 +4,8 @@ export type ProjectState = {
   userEmail: string;
   userIsLoggedIn: boolean;
   userActiveTab: number;
+  products: CartProduct[];
+  productsLoading: boolean;
   cartProducts: CartProduct[];
   setUserName: (userName: string) => void;
   setUserEmail: (userEmail: string) => void;
@@ -16,7 +18,14 @@ export type ProjectState = {
 
 export type CartProduct = {
   id: string;
-  name: string;
+  title: string;
+  description: string;
+  category: string;
+  image: string;
   price: number;
+  rating: {
+    rate: number;
+    count: number;
+  };
   quantity: number;
 };
