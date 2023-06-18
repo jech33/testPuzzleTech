@@ -2,6 +2,7 @@ import useOrderActions from '../hooks/useOrderActions';
 import { useSelectOrdersState, useSelectProductsState } from '../store/projectStore.selects';
 import { Order } from '../store/projectStore.types';
 import { calculateTotalWithTax, formatCurrency } from '../utils/functions';
+import OrderRating from './OrderRating';
 
 const OrderCard = (order: Order) => {
   const { orders, orderCurrent, setOrders } = useSelectOrdersState();
@@ -19,6 +20,11 @@ const OrderCard = (order: Order) => {
 
   return (
     <div className="flex flex-col py-5">
+      {order.completed ? (
+        <div className="flex">
+          <OrderRating {...order} />
+        </div>
+      ) : null}
       <div className="flex w-full justify-between gap-4 px-1">
         <h3 className="text-sm font-bold">Order Number: {order.id}</h3>
         <p className="text-sm">Date: {date}</p>

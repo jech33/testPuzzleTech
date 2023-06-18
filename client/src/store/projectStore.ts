@@ -61,12 +61,11 @@ const useProjectStore = create<ProjectState, [['zustand/subscribeWithSelector', 
       }),
       {
         name: 'puzzle-tech-storage',
-        partialize: ({ userName, userEmail, userIsLoggedIn, userActiveTab, cartProducts }) => ({
+        partialize: ({ userName, userEmail, userIsLoggedIn, userActiveTab }) => ({
           userName,
           userEmail,
           userIsLoggedIn,
           userActiveTab,
-          cartProducts,
         }),
       },
     ),
