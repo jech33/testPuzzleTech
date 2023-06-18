@@ -1,18 +1,23 @@
 /** Libraries **/
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 /** Functional **/
-import { useSelectUserState } from '../store/projectStore.selects';
+import { useSelectProductsState, useSelectUserState } from '../store/projectStore.selects';
+import { calculateTotalQuantity } from '../utils/functions';
 
 /** Assets **/
 import avatar from '../assets/avatar.svg';
 import { MdShoppingCart } from 'react-icons/md';
+import CartDrawer from './CartDrawer';
 
 const TopBar = () => {
   const { userName, userIsLoggedIn, clearUser } = useSelectUserState();
+  const { cartProducts } = useSelectProductsState();
 
   const dropdownRef = useRef<HTMLUListElement>(null);
+
+  const totalItems = useMemo(() => calculateTotalQuantity(cartProducts), [cartProducts]);
 
   const handleLogOut = () => {
     clearUser();
@@ -33,7 +38,7 @@ const TopBar = () => {
   }, [dropdownRef]);
 
   return (
-    <div className="flex items-center justify-end flex-wrap bg-blue-500 p-3 gap-4 rounded-b-xl">
+    <div className="flex items-center justify-end flex-wrap bg-blue-500 p-3 px-8 gap-4 rounded-b-xl">
       {!userIsLoggedIn ? (
         <Link to={'/login'} className="btn">
           Log in
@@ -57,8 +62,16 @@ const TopBar = () => {
         </details>
       )}
       {userIsLoggedIn ? (
-        <div className="btn bg-white btn-circle">
-          <MdShoppingCart size="1.75rem" />
+        <div className="indicator">
+          {totalItems > 0 ? (
+            <span className="indicator-item badge badge-secondary text-white">
+              {totalItems < 1000 ? totalItems : '999+'}
+            </span>
+          ) : null}
+          <CartDrawer />
+          {/* <div className="btn bg-white btn-circle">
+            <MdShoppingCart size="1.75rem" />
+          </div> */}
         </div>
       ) : null}
     </div>

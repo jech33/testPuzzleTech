@@ -41,10 +41,10 @@ const Login = () => {
 
   return (
     <div className="container mx-auto flex items-center justify-center h-[100svh] w-full">
-      <button className="absolute left-5 top-5 btn btn-primary btn-circle" onClick={() => navigate('/')}>
+      <button className="absolute left-5 top-5 btn btn-info btn-circle" onClick={() => navigate('/')}>
         <MdArrowBack className="text-white" size="2rem" />
       </button>
-      <form className="prose flex flex-col w-full shadow-lg border-2 border-primary p-5 max-w-[270px] rounded-xl gap-2">
+      <form className="prose flex flex-col w-full shadow-lg border-2 border-info p-5 max-w-[270px] rounded-xl gap-2">
         <h3>{isRegister ? 'Welcome to puzzle.tech!' : 'Welcome back!'}</h3>
         <div className="flex flex-col gap-5">
           <div className="relative flex items-center">
@@ -91,7 +91,7 @@ const Login = () => {
               </span>
             </p>
           </div>
-          <button className="btn btn-primary" onClick={handleRegisterLogin}>
+          <button className="btn btn-info" onClick={handleRegisterLogin}>
             {isRegister ? 'Sign up' : 'Log in'}
           </button>
         </div>
