@@ -72,8 +72,8 @@ const AllOrders = () => {
           <option value={2}>2</option>
           <option value={1}>1</option>
         </select>
-        <select className="select select-sm w-1/4 border-gray-300 px-3" onChange={sortOrdersByPrice}>
-          <option value="" disabled selected>
+        <select className="select select-sm w-1/4 border-gray-300 px-3" onChange={sortOrdersByPrice} defaultValue={''}>
+          <option value="" disabled>
             Sort By Price
           </option>
           <option value="desc">$ Descending</option>
