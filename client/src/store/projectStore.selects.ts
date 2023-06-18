@@ -40,3 +40,17 @@ export const useSelectProductsState = () => {
     shallow,
   );
 };
+
+export const useSelectOrdersState = () => {
+  return useProjectStore(
+    ({ orders, orderCurrent, orderEditingId, setOrders, setOrderCurrent, setOrderEditingId }) => ({
+      orders,
+      orderCurrent,
+      orderEditingId,
+      setOrders,
+      setOrderCurrent,
+      setOrderEditingId,
+    }),
+    shallow,
+  );
+};

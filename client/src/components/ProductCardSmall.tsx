@@ -7,7 +7,7 @@ const ProductCardSmall = (product: CartProduct) => {
   const { cartProduct, addProductToCart, removeProductFromCart } = useCartProduct(product);
   return (
     <>
-      <div className="flex items-center rounded-xl border-[1px] border-gray-300 p-2">
+      <div className="flex items-center gap-3 rounded-xl border-[1px] border-gray-300 p-2">
         <figure className="h-[90px] min-h-[90px] w-[90px] min-w-[90px]">
           <img src={cartProduct?.image} alt={cartProduct?.title} className="h-full w-full object-contain" />
         </figure>

@@ -7,11 +7,17 @@ export type ProjectState = {
   products: CartProduct[];
   productsLoading: boolean;
   cartProducts: CartProduct[];
+  orders: Order[];
+  orderCurrent: Order | null;
+  orderEditingId: string;
   setUserName: (userName: string) => void;
   setUserEmail: (userEmail: string) => void;
   setUserIsLoggedIn: (userIsLoggedIn: boolean) => void;
   setUserActiveTab: (userActiveTab: number) => void;
   setCartProducts: (cartProducts: CartProduct[]) => void;
+  setOrders: (orders: Order[]) => void;
+  setOrderCurrent: (orderCurrent: Order | null) => void;
+  setOrderEditingId: (orderEditingId: string) => void;
   clearUser: () => void;
   clearCart: () => void;
 };
@@ -28,4 +34,16 @@ export type CartProduct = {
     count: number;
   };
   quantity: number;
+};
+
+export type Order = {
+  id: string;
+  products: CartProduct[];
+  total: number;
+  subtotal: number;
+  tax: number;
+  date: string;
+  completed: boolean;
+  rating: number;
+  currency: 'USD' | 'EUR' | 'HNL';
 };

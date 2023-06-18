@@ -77,12 +77,12 @@ const AllProducts = () => {
   };
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="flex items-center pb-5 py-3 gap-3 flex-wrap">
+    <div className="flex w-full flex-col px-3">
+      <div className="flex flex-wrap items-center gap-3 py-3 pb-5">
         <input
           type="text"
           placeholder="Search..."
-          className="input flex-grow min-w-[270px] border-2 border-gray-200"
+          className="input min-w-[270px] flex-grow border-2 border-gray-200"
           onChange={handleInputChange}
           ref={searchInputRef}
         />
@@ -103,7 +103,7 @@ const AllProducts = () => {
           ))}
         </select>
       </div>
-      <div className="flex flex-wrap gap-5 justify-center flex-grow overflow-scroll pb-[5rem]">
+      <div className="flex flex-grow flex-wrap justify-center gap-5 overflow-scroll pb-[5rem]">
         {productsLoading ? (
           <span className="loading loading-ring loading-lg"></span>
         ) : (

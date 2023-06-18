@@ -13,9 +13,28 @@ const ProductCard = (product: CartProduct) => {
 
   const { cartProduct, isProductInCart, addProductToCart, removeProductFromCart } = useCartProduct(product);
 
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case 'electronics':
+        return 'badge-primary';
+      case 'jewelery':
+        return 'badge-success';
+      case "men's clothing":
+        return 'badge-info';
+      case "women's clothing":
+        return 'badge-secondary';
+      default:
+        return 'badge-neutral';
+    }
+  };
+
+  const categoryColor = getCategoryColor(category);
+
   return (
     <div className="card card-compact relative w-[270px] overflow-hidden bg-base-100 shadow-xl">
-      <span className="badge badge-success absolute right-0 w-fit grow-0 rounded-none rounded-bl-xl py-3 text-white">
+      <span
+        className={`${categoryColor} badge absolute right-0 w-fit grow-0 rounded-none rounded-bl-xl py-3 text-white`}
+      >
         {category}
       </span>
       <figure className="px-3 pt-10">

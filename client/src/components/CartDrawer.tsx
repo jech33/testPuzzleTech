@@ -1,22 +1,64 @@
-import { useSelectProductsState } from '../store/projectStore.selects';
+/** Functional **/
+import useOrderActions from '../hooks/useOrderActions';
+import { useSelectOrdersState, useSelectProductsState } from '../store/projectStore.selects';
+import { Order } from '../store/projectStore.types';
 import { calculateTotal, calculateTotalWithTax, formatCurrency } from '../utils/functions';
 import ProductCardSmall from './ProductCardSmall';
 
+/** Assets **/
+import { MdShoppingCart } from 'react-icons/md';
+
 const CartDrawer = () => {
-  const { cartProducts } = useSelectProductsState();
+  const { cartProducts, setCartProducts } = useSelectProductsState();
+  const { orders, orderEditingId, setOrders } = useSelectOrdersState();
   const subtotal = calculateTotal(cartProducts);
   const total = calculateTotalWithTax(subtotal, 0.15);
+
+  const order = orders.find((order) => order.id === orderEditingId) || orders[0];
+
+  const { handleCancelEdit, handleSaveEdit } = useOrderActions(order);
+
+  const handleCandelButton = () => {
+    handleCancelEdit();
+    document.getElementById('cart-drawer')?.click();
+  };
+
+  const handleSaveButton = () => {
+    handleSaveEdit();
+    document.getElementById('cart-drawer')?.click();
+  };
+
+  const handleCheckout = () => {
+    alert('TODO: Post order to api');
+    if (cartProducts.length > 0) {
+      const newOrder: Order = {
+        id: Math.random().toString(),
+        products: cartProducts,
+        total,
+        subtotal,
+        tax: 0.15,
+        date: new Date().toISOString(),
+        completed: false,
+        currency: 'USD',
+        rating: 0,
+      };
+      setOrders([...orders, newOrder]);
+      setCartProducts([]);
+      document.getElementById('cart-drawer')?.click();
+    }
+  };
+
   return (
     <div className="drawer drawer-end">
-      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+      <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
-        <label htmlFor="my-drawer-4" className="btn-primary drawer-button btn">
-          Open drawer
+        <label htmlFor="cart-drawer" className="btn-circle btn bg-white">
+          <MdShoppingCart size="1.75rem" />
         </label>
       </div>
       <div className="drawer-side z-50">
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
+        <label htmlFor="cart-drawer" className="drawer-overlay"></label>
         <div className="flex h-full flex-col justify-between bg-white">
           <ul className="flex w-80 flex-col gap-3 overflow-scroll p-4 text-base-content">
             {/* Sidebar content here */}
@@ -43,7 +85,20 @@ const CartDrawer = () => {
                 <h4 className="m-0">{formatCurrency(total, 'USD')}</h4>
               </li>
             </ul>
-            <button className="btn-warning btn">Checkout</button>
+            {orderEditingId ? (
+              <div className="box-border flex justify-stretch gap-4">
+                <button className="btn-error btn grow" onClick={handleCandelButton}>
+                  Cancel
+                </button>
+                <button className="btn-success btn grow" onClick={handleSaveButton}>
+                  Save
+                </button>
+              </div>
+            ) : (
+              <button className="btn-warning btn" onClick={handleCheckout}>
+                Checkout
+              </button>
+            )}
           </div>
         </div>
       </div>

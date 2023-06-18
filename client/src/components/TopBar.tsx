@@ -5,11 +5,10 @@ import { Link } from 'react-router-dom';
 /** Functional **/
 import { useSelectProductsState, useSelectUserState } from '../store/projectStore.selects';
 import { calculateTotalQuantity } from '../utils/functions';
+import CartDrawer from './CartDrawer';
 
 /** Assets **/
 import avatar from '../assets/avatar.svg';
-import { MdShoppingCart } from 'react-icons/md';
-import CartDrawer from './CartDrawer';
 
 const TopBar = () => {
   const { userName, userIsLoggedIn, clearUser } = useSelectUserState();
@@ -38,20 +37,20 @@ const TopBar = () => {
   }, [dropdownRef]);
 
   return (
-    <div className="flex items-center justify-end flex-wrap bg-blue-500 p-3 px-8 gap-4 rounded-b-xl">
+    <div className="flex flex-wrap items-center justify-end gap-4 rounded-b-xl bg-blue-500 p-3 px-8">
       {!userIsLoggedIn ? (
         <Link to={'/login'} className="btn">
           Log in
         </Link>
       ) : (
-        <details className="dropdown dropdown-end">
-          <summary className="btn capitalize m-0">Hey {userName || 'user'}!</summary>
+        <details className="dropdown-end dropdown">
+          <summary className="btn m-0 capitalize">Hey {userName || 'user'}!</summary>
           <ul
-            className="min-w-[8rem] mt-2 p-2 shadow-lg menu dropdown-content bg-base-100 rounded-box"
+            className="dropdown-content menu rounded-box mt-2 min-w-[8rem] bg-base-100 p-2 shadow-lg"
             ref={dropdownRef}
           >
-            <div className="p-2 w-full flex justify-center items-center border-b-[1px] border-gray-200 mb-2">
-              <img src={avatar} alt="avatar" className="w-10 h-10 rounded-full shadow" />
+            <div className="mb-2 flex w-full items-center justify-center border-b-[1px] border-gray-200 p-2">
+              <img src={avatar} alt="avatar" className="h-10 w-10 rounded-full shadow" />
             </div>
             <button onClick={handleLogOut}>
               <li>
@@ -64,14 +63,11 @@ const TopBar = () => {
       {userIsLoggedIn ? (
         <div className="indicator">
           {totalItems > 0 ? (
-            <span className="indicator-item badge badge-secondary text-white">
+            <span className="badge badge-secondary indicator-item text-white">
               {totalItems < 1000 ? totalItems : '999+'}
             </span>
           ) : null}
           <CartDrawer />
-          {/* <div className="btn bg-white btn-circle">
-            <MdShoppingCart size="1.75rem" />
-          </div> */}
         </div>
       ) : null}
     </div>
