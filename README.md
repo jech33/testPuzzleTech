@@ -12,6 +12,16 @@ http://localhost:5173/ -> client
 
 http://localhost:8000/ -> server
 
+### It should look something like this:
+
+<img width="800" alt="image" src="https://github.com/jech33/testPuzzleTech/assets/67987594/6990c1d2-dcd6-4113-a462-fc8afba760e4">
+<img width="800" alt="image" src="https://github.com/jech33/testPuzzleTech/assets/67987594/fc436b50-7d22-440e-a95d-b480ca539f30">
+<img width="800" alt="image" src="https://github.com/jech33/testPuzzleTech/assets/67987594/3217a964-2e0e-4279-9651-56241d737361">
+<img width="399" alt="image" src="https://github.com/jech33/testPuzzleTech/assets/67987594/a50c604c-c51c-436d-b396-a3ee72d45832">
+<img width="399" alt="image" src="https://github.com/jech33/testPuzzleTech/assets/67987594/3459130b-cc9c-4b0e-b0a3-afcfca0bbd47">
+
+
+
 ## Documentation
 - 💪 [ReactJs Documentation](https://reactjs.org)
 - 💪 [NodeJs Documentation](https://nodejs.org/en/docs)
