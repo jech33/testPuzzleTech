@@ -7,7 +7,7 @@ import { getFakeProducts } from '../services/fakeStoreApi';
 import { persist, subscribeWithSelector } from 'zustand/middleware';
 
 const initialUserState = {
-  userName: '',
+  userId: '',
   userEmail: '',
   userIsLoggedIn: false,
   userActiveTab: 1,
@@ -34,8 +34,8 @@ const useProjectStore = create<ProjectState, [['zustand/subscribeWithSelector', 
         clearCart: () => {
           set(() => initialCartState);
         },
-        setUserName: (userName: string) => {
-          set(() => ({ userName }));
+        setUserId: (userId: string) => {
+          set(() => ({ userId }));
         },
         setUserEmail: (userEmail: string) => {
           set(() => ({ userEmail }));
@@ -61,8 +61,8 @@ const useProjectStore = create<ProjectState, [['zustand/subscribeWithSelector', 
       }),
       {
         name: 'puzzle-tech-storage',
-        partialize: ({ userName, userEmail, userIsLoggedIn, userActiveTab }) => ({
-          userName,
+        partialize: ({ userId, userEmail, userIsLoggedIn, userActiveTab }) => ({
+          userId,
           userEmail,
           userIsLoggedIn,
           userActiveTab,
@@ -73,7 +73,11 @@ const useProjectStore = create<ProjectState, [['zustand/subscribeWithSelector', 
 );
 
 getFakeProducts().then((products: CartProduct[]) => {
-  useProjectStore.setState({ products, productsLoading: false });
+  const newProducts: CartProduct[] = products.map((product) => ({
+    ...product,
+    id: product.id.toString(),
+  }));
+  useProjectStore.setState({ products: newProducts, productsLoading: false });
 });
 
 export default useProjectStore;

@@ -11,7 +11,7 @@ import CartDrawer from './CartDrawer';
 import avatar from '../assets/avatar.svg';
 
 const TopBar = () => {
-  const { userName, userIsLoggedIn, clearUser } = useSelectUserState();
+  const { userEmail, userIsLoggedIn, clearUser } = useSelectUserState();
   const { cartProducts } = useSelectProductsState();
 
   const dropdownRef = useRef<HTMLUListElement>(null);
@@ -44,7 +44,9 @@ const TopBar = () => {
         </Link>
       ) : (
         <details className="dropdown-end dropdown">
-          <summary className="btn m-0 capitalize">Hey {userName || 'user'}!</summary>
+          <summary className="btn m-0 capitalize">
+            Hey {userEmail.substring(0, userEmail.indexOf('@')) || 'user'}!
+          </summary>
           <ul
             className="dropdown-content menu rounded-box mt-2 min-w-[8rem] bg-base-100 p-2 shadow-lg"
             ref={dropdownRef}

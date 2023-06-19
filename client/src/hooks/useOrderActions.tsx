@@ -1,9 +1,11 @@
 /** Functional **/
-import { useSelectOrdersState, useSelectProductsState } from '../store/projectStore.selects';
+import { deleteOrder, getOrders, updateOrder } from '../services/puzzleTechApi';
+import { useSelectOrdersState, useSelectProductsState, useSelectUserState } from '../store/projectStore.selects';
 import { Order } from '../store/projectStore.types';
 import { calculateTotal, calculateTotalWithTax } from '../utils/functions';
 
 const useOrderActions = (order: Order) => {
+  const { userId } = useSelectUserState();
   const { orders, orderEditingId, orderCurrent, setOrders, setOrderCurrent, setOrderEditingId } =
     useSelectOrdersState();
   const { cartProducts, setCartProducts } = useSelectProductsState();
@@ -12,6 +14,15 @@ const useOrderActions = (order: Order) => {
 
   const subtotal = calculateTotal(cartProducts);
   const total = calculateTotalWithTax(subtotal, 0.15);
+
+  const fetchOrders = async () => {
+    try {
+      const res = await getOrders(userId);
+      setOrders(res.data.orders.reverse());
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleStartEdit = () => {
     setOrderEditingId(order.id);
@@ -26,42 +37,48 @@ const useOrderActions = (order: Order) => {
     setOrderCurrent(null);
   };
 
-  const handleSaveEdit = () => {
-    setOrders(
-      orders.map((o) => {
-        if (o.id === order?.id) {
-          return {
-            ...order,
-            products: cartProducts,
-            total: total,
-            subtotal: subtotal,
-            date: new Date().toISOString(),
-          };
-        }
-        return o;
-      }),
-    );
+  const handleSaveEdit = async () => {
     setOrderEditingId('');
     setCartProducts([]);
     setOrderCurrent(null);
+    try {
+      await updateOrder({
+        ...order,
+        products: cartProducts,
+        total: total,
+        subtotal: subtotal,
+        date: new Date().toISOString(),
+      });
+      alert('Order updated successfully!');
+      await fetchOrders();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handlePay = () => {
-    setOrders(
-      orders.map((o) => {
-        if (o.id === order?.id) {
-          return {
-            ...order,
-            completed: true,
-          };
-        }
-        return o;
-      }),
-    );
+  const handlePay = async () => {
+    try {
+      await updateOrder({
+        ...order,
+        completed: true,
+      });
+      alert('Payment done successfully!');
+      await fetchOrders();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleDelete = () => {
-    setOrders(orders.filter((o) => o.id !== order.id));
+  const handleDelete = async () => {
+    try {
+      if (confirm('Are you sure you want to delete this order?')) {
+        await deleteOrder(order.id);
+        fetchOrders();
+        alert('Order deleted successfully!');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return {

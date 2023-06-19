@@ -1,25 +1,26 @@
 import { Order } from '../store/projectStore.types';
-import { useSelectOrdersState } from '../store/projectStore.selects';
 import { useEffect, useRef } from 'react';
+import { updateOrder } from '../services/puzzleTechApi';
+import useOrders from '../hooks/useOrders';
 
 const OrderRating = (props: Order) => {
   const order = props;
-  const { orders, setOrders } = useSelectOrdersState();
+  const { fetchOrders } = useOrders();
 
   const ratingValues = [1, 2, 3, 4, 5];
   const ratingRef = useRef<HTMLDivElement>(null);
 
-  const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newOrders = orders.map((o) => {
-      if (o.id === order.id) {
-        return {
-          ...order,
-          rating: parseInt(e.target.value),
-        };
-      }
-      return o;
-    });
-    setOrders(newOrders);
+  const handleRatingChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      await updateOrder({
+        ...order,
+        rating: parseInt(e.target.value),
+      });
+      alert('Order rated successfully!');
+      await fetchOrders();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {

@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelectOrdersState } from '../store/projectStore.selects';
 import OrderCard from './OrderCard';
+import useOrders from '../hooks/useOrders';
 
 const AllOrders = () => {
   const { orders } = useSelectOrdersState();
   const [filteredOrders, setFilteredOrders] = useState(orders);
+  const { fetchOrders } = useOrders();
 
   const statusFilter = useRef<HTMLSelectElement>(null);
   const ratingFilter = useRef<HTMLSelectElement>(null);
@@ -46,6 +48,12 @@ const AllOrders = () => {
     getFilteredOrders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orders]);
+
+  useEffect(() => {
+    fetchOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="flex w-full flex-col gap-4 pt-4">
       <div className="flex gap-4 px-3">

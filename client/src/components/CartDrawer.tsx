@@ -1,7 +1,8 @@
 /** Functional **/
 import useOrderActions from '../hooks/useOrderActions';
-import { useSelectOrdersState, useSelectProductsState } from '../store/projectStore.selects';
-import { Order } from '../store/projectStore.types';
+import { postOrder } from '../services/puzzleTechApi';
+import { useSelectOrdersState, useSelectProductsState, useSelectUserState } from '../store/projectStore.selects';
+import { OrderCreation } from '../store/projectStore.types';
 import { calculateTotal, calculateTotalWithTax, formatCurrency } from '../utils/functions';
 import ProductCardSmall from './ProductCardSmall';
 
@@ -9,8 +10,9 @@ import ProductCardSmall from './ProductCardSmall';
 import { MdShoppingCart } from 'react-icons/md';
 
 const CartDrawer = () => {
+  const { userId } = useSelectUserState();
   const { cartProducts, setCartProducts } = useSelectProductsState();
-  const { orders, orderEditingId, setOrders } = useSelectOrdersState();
+  const { orders, orderEditingId } = useSelectOrdersState();
   const subtotal = calculateTotal(cartProducts);
   const total = calculateTotalWithTax(subtotal, 0.15);
 
@@ -28,11 +30,10 @@ const CartDrawer = () => {
     document.getElementById('cart-drawer')?.click();
   };
 
-  const handleCheckout = () => {
-    alert('TODO: Post order to api');
+  const handleCheckout = async () => {
     if (cartProducts.length > 0) {
-      const newOrder: Order = {
-        id: Math.random().toString(),
+      const newOrder: OrderCreation = {
+        user: userId,
         products: cartProducts,
         total,
         subtotal,
@@ -40,11 +41,16 @@ const CartDrawer = () => {
         date: new Date().toISOString(),
         completed: false,
         currency: 'USD',
-        rating: 0,
+        rating: 5,
       };
-      setOrders([...orders, newOrder]);
-      setCartProducts([]);
-      document.getElementById('cart-drawer')?.click();
+      try {
+        await postOrder(newOrder);
+        alert('Order placed successfully!');
+        setCartProducts([]);
+        document.getElementById('cart-drawer')?.click();
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 

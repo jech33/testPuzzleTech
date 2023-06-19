@@ -1,5 +1,5 @@
 /** Libraries **/
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 /** Functional */
@@ -7,26 +7,47 @@ import { useSelectUserState } from '../../store/projectStore.selects';
 
 /** Assets **/
 import { MdArrowBack, MdLock, MdPerson, MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { login, register } from '../../services/puzzleTechApi';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setUserIsLoggedIn } = useSelectUserState();
+  const { setUserIsLoggedIn, setUserEmail, setUserId } = useSelectUserState();
 
   const [showPassword, setShowPassword] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
+
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const changeToRegisterLogin = () => {
     setIsRegister((prev) => !prev);
   };
 
-  const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    setUserIsLoggedIn(true);
-    navigate('/');
+    const email = emailRef.current?.value || '';
+    const password = passwordRef.current?.value || '';
+    try {
+      const res = await login(email, password);
+      setUserEmail(email);
+      setUserId(res.data.user.uid);
+      setUserIsLoggedIn(true);
+      navigate('/');
+    } catch (error) {
+      alert('Unexpected error, please review your credentials');
+    }
   };
 
-  const handleRegister = () => {
-    console.log('register');
+  const handleRegister = async () => {
+    const email = emailRef.current?.value || '';
+    const password = passwordRef.current?.value || '';
+
+    try {
+      const res = await register(email, password);
+      res ? alert('User created successfully, please log in') : alert('User already exists');
+    } catch (error) {
+      alert('Unexpected error, please review your credentials');
+    }
   };
 
   const handleRegisterLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -40,18 +61,19 @@ const Login = () => {
   };
 
   return (
-    <div className="container mx-auto flex items-center justify-center h-[100svh] w-full">
-      <button className="absolute left-5 top-5 btn btn-info btn-circle" onClick={() => navigate('/')}>
+    <div className="container mx-auto flex h-[100svh] w-full items-center justify-center">
+      <button className="btn-info btn-circle btn absolute left-5 top-5" onClick={() => navigate('/')}>
         <MdArrowBack className="text-white" size="2rem" />
       </button>
-      <form className="prose flex flex-col w-full shadow-lg border-2 border-info p-5 max-w-[270px] rounded-xl gap-2">
+      <form className="prose flex w-full max-w-[270px] flex-col gap-2 rounded-xl border-2 border-info p-5 shadow-lg">
         <h3>{isRegister ? 'Welcome to puzzle.tech!' : 'Welcome back!'}</h3>
         <div className="flex flex-col gap-5">
           <div className="relative flex items-center">
             <MdPerson className="absolute left-4 rounded-full" />
             <input
+              ref={emailRef}
               placeholder="Email address"
-              className="input border-gray-300 w-full pl-11"
+              className="input w-full border-gray-300 pl-11"
               type="email"
               name="email"
               id="email"
@@ -61,13 +83,14 @@ const Login = () => {
             <div className="relative flex items-center">
               <MdLock className="absolute left-4 rounded-full" />
               <input
+                ref={passwordRef}
                 placeholder="Password"
-                className="input border-gray-300 w-full px-11"
+                className="input w-full border-gray-300 px-11"
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 id="password"
               />
-              <button className="absolute right-0 btn btn-circle scale-[0.7]" onClick={handleShowPassword}>
+              <button className="btn-circle btn absolute right-0 scale-[0.7]" onClick={handleShowPassword}>
                 <label className="swap">
                   <input
                     type="checkbox"
@@ -82,7 +105,7 @@ const Login = () => {
                 </label>
               </button>
             </div>
-            <p className="text-xs text-right w-full my-1">
+            <p className="my-1 w-full text-right text-xs">
               {isRegister ? 'Already' : `Don't`} have an account?{' '}
               <span>
                 <a href="#register" className="link" onClick={changeToRegisterLogin}>
@@ -91,7 +114,7 @@ const Login = () => {
               </span>
             </p>
           </div>
-          <button className="btn btn-info" onClick={handleRegisterLogin}>
+          <button className="btn-info btn" onClick={handleRegisterLogin}>
             {isRegister ? 'Sign up' : 'Log in'}
           </button>
         </div>

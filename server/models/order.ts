@@ -80,8 +80,11 @@ const OrderSchema = new Schema({
 });
 
 OrderSchema.methods.toJSON = function () {
-  const { __v, ...order } = this.toObject();
-  return order;
+  const { __v, _id, ...order } = this.toObject();
+  return {
+    ...order,
+    id: _id,
+  };
 };
 
 export default model("Order", OrderSchema);

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 export type ProjectState = {
-  userName: string;
+  userId: string;
   userEmail: string;
   userIsLoggedIn: boolean;
   userActiveTab: number;
@@ -10,7 +10,7 @@ export type ProjectState = {
   orders: Order[];
   orderCurrent: Order | null;
   orderEditingId: string;
-  setUserName: (userName: string) => void;
+  setUserId: (userId: string) => void;
   setUserEmail: (userEmail: string) => void;
   setUserIsLoggedIn: (userIsLoggedIn: boolean) => void;
   setUserActiveTab: (userActiveTab: number) => void;
@@ -38,6 +38,18 @@ export type CartProduct = {
 
 export type Order = {
   id: string;
+  products: CartProduct[];
+  total: number;
+  subtotal: number;
+  tax: number;
+  date: string;
+  completed: boolean;
+  rating: number;
+  currency: 'USD' | 'EUR' | 'HNL';
+};
+
+export type OrderCreation = {
+  user: string;
   products: CartProduct[];
   total: number;
   subtotal: number;

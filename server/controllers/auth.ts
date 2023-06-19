@@ -28,9 +28,11 @@ export const postLogin = async (req: Request, res: Response) => {
     res.json({
       ok: true,
       msg: "Login successfully",
-      user: {
-        uid: user.id,
-        email: user.email,
+      data: {
+        user: {
+          uid: user.id,
+          email: user.email,
+        },
       },
     });
   } catch (error) {
@@ -52,18 +54,27 @@ export const postRegister = async (req: Request, res: Response) => {
     });
   }
 
-  const user = new User({ email, password });
+  // Verify email exists
+  const user = await User.findOne({ email });
+  if (user) {
+    return res.status(400).json({
+      ok: false,
+      msg: "User already exists",
+    });
+  }
+
+  const newUser = new User({ email, password });
 
   const salt = bcryptjs.genSaltSync();
-  user.password = bcryptjs.hashSync(password, salt);
+  newUser.password = bcryptjs.hashSync(password, salt);
 
-  await user.save();
+  await newUser.save();
 
   res.json({
     ok: true,
     msg: "User created successfully",
     data: {
-      user: { uid: user.id, email: user.email },
+      user: { uid: newUser.id, email: newUser.email },
     },
   });
 };
