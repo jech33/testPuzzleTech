@@ -1,4 +1,16 @@
 # Puzzle.tech ecommerce Fullstack test
+In order to run the project, you must clone this repository locally and run these commands on your terminal:
+``` bash
+npm install
+
+npm start
+```
+
+After that, the server will be running on port 8000 and the client on port 5173. You'll be running the project locally so to access the client or server you must copy these links on your browser:
+
+http://localhost:5173/ -> client
+
+http://localhost:8000/ -> server
 
 ## Documentation
 - 💪 [ReactJs Documentation](https://reactjs.org)
