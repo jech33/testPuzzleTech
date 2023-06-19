@@ -74,6 +74,7 @@ const OrderSchema = new Schema({
   },
   currency: {
     type: String,
+    enum: ["USD", "EUR", "GBP"],
     required: [true, "Currency is mandatory"],
   },
 });
