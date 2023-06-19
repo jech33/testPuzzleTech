@@ -14,3 +14,19 @@ export const postOrder = (req: Request, res: Response) => {
     msg: "postOrder",
   });
 };
+
+export const putOrder = (req: Request, res: Response) => {
+  const { id } = req.params;
+  res.json({
+    ok: true,
+    msg: `putOrder ${id}`,
+  });
+};
+
+export const deleteOrder = (req: Request, res: Response) => {
+  const { id } = req.params;
+  res.json({
+    ok: true,
+    msg: `deleteOrder ${id}`,
+  });
+};
